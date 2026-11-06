@@ -1,6 +1,6 @@
-def show_inv(ekwipunek, waga, max_waga):
+def show_inv(ekwipunek, waga, max_waga, waga_przedmiotow):
     for i in ekwipunek.keys():
-        print(i, "-", ekwipunek[i])
+        print(i, "-", ekwipunek[i], "; waga(x1):", waga_przedmiotow.get(i, 0))
     print("waga:", waga, "/", max_waga)
         
 def add_item(ekwipunek, waga_przedmiotow, max_waga):
@@ -9,14 +9,14 @@ def add_item(ekwipunek, waga_przedmiotow, max_waga):
         if item == "quit":
             break
         elif item in ekwipunek:
-            amount = int(input("Ile? ").strip())
+            amount = pobierz_liczbe()
             ekwipunek[item] += amount
             waga = waga_oblicz(ekwipunek, waga_przedmiotow)
             if waga > max_waga:
                 ekwipunek[item] -= amount
                 print("Nie możesz unieść więcej przedmiotów.") #Chciałem dodać jeszcze funkcjonalność, która by dodała tyle przedmiotów ile może przed tym zanim przekroczy maksymalną wagę i odrzuciła resztę
         else:
-            amount = int(input("Ile? ").strip())
+            amount = pobierz_liczbe()
             if amount == 0:
                 print("Nie dodano żadnych przedmiotów.")
             else:
@@ -32,7 +32,7 @@ def use_item(ekwipunek):
         if item == "quit":
             break
         elif item in ekwipunek and item != "zloto":
-            amount = int(input("Ile? ").strip())
+            amount = pobierz_liczbe()
             if amount <= ekwipunek[item]:
                 ekwipunek[item] -= amount
                 if ekwipunek[item] == 0:
@@ -58,28 +58,28 @@ def shop(ekwipunek, waga_przedmiotow, max_waga):
         print("Sklep: miecz - 10, mikstura - 2")
         item = input("Co chcesz kupic? ").lower().strip()  
         if item == "miecz":
-            amount = int(input("Ile? ").strip())
+            amount = pobierz_liczbe()
             cena = 10 * amount
             if ekwipunek["zloto"] >= cena:
                 ekwipunek["zloto"] -= cena
-                ekwipunek[item] += amount
+                ekwipunek[item] = ekwipunek.get(item, 0) + amount
                 waga = waga_oblicz(ekwipunek, waga_przedmiotow)
                 if waga > max_waga:
                     ekwipunek["zloto"] += cena
-                    ekwipunek[item] -= amount
+                    ekwipunek[item] = ekwipunek.get(item, 0) - amount
                     print("Nie możesz unieść więcej przedmiotów.")
             else:
                 print("Nie masz wystarczająco zlota.")
         elif item == "mikstura":
-            amount = int(input("Ile? ").strip())
+            amount = pobierz_liczbe()
             cena = 2 * amount
             if ekwipunek["zloto"] >= cena:
                 ekwipunek["zloto"] -= cena
-                ekwipunek[item] += amount
+                ekwipunek[item] = ekwipunek.get(item, 0) + amount
                 waga = waga_oblicz(ekwipunek, waga_przedmiotow)
                 if waga > max_waga:
                     ekwipunek["zloto"] += cena
-                    ekwipunek[item] -= amount
+                    ekwipunek[item] = ekwipunek.get(item, 0) - amount
                     print("Nie możesz unieść więcej przedmiotów.")
             else:
                 print("Nie masz wystarczająco zlota.")
@@ -90,9 +90,21 @@ def shop(ekwipunek, waga_przedmiotow, max_waga):
 
 def waga_oblicz(ekwipunek, waga_przedmiotow):
     waga = 0
-    for i in ekwipunek and waga_przedmiotow:
-        waga += ekwipunek[i] * waga_przedmiotow[i]
+    for i in ekwipunek:
+        waga += ekwipunek[i] * waga_przedmiotow.get(i, 0)
     return waga
+
+def pobierz_liczbe(pytanie = "Ile? "):
+    while True:
+        try:
+            liczba = int(input(pytanie).strip())
+        except ValueError:
+            print("Podaj liczbę całkowitą.")
+            continue
+        if liczba < 0:
+            print("Liczba nie może być ujemna.")
+            continue
+        return liczba
 
 def menu():
     waga_przedmiotow = {"miecz": 5, "mikstura": 1, "zloto": 0} #Nie działa dla przedmiotów spoza tablicy dodanych przez użytkownika, ponieważ każdy przedmiot by musiał mieć hardcoded wage
@@ -103,7 +115,7 @@ def menu():
         print("1. show ", "2. add", "3. use", "4. check", "5. shop", "6. quit")
         option = input("Wybierz: ").strip()
         if option == "1":
-            show_inv(ekwipunek, waga, max_waga)
+            show_inv(ekwipunek, waga, max_waga, waga_przedmiotow)
         elif option == "2":
             add_item(ekwipunek, waga_przedmiotow, max_waga)
         elif option == "3":
