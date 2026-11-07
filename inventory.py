@@ -14,7 +14,7 @@ def add_item(ekwipunek, waga_przedmiotow, max_waga):
             waga = waga_oblicz(ekwipunek, waga_przedmiotow)
             if waga > max_waga:
                 ekwipunek[item] -= amount
-                print("Nie możesz unieść więcej przedmiotów.") #Chciałem dodać jeszcze funkcjonalność, która by dodała tyle przedmiotów ile może przed tym zanim przekroczy maksymalną wagę i odrzuciła resztę
+                print("Nie możesz unieść więcej przedmiotów.")
         else:
             amount = pobierz_liczbe()
             if amount == 0:
@@ -107,7 +107,7 @@ def pobierz_liczbe(pytanie = "Ile? "):
         return liczba
 
 def menu():
-    waga_przedmiotow = {"miecz": 5, "mikstura": 1, "zloto": 0} #Nie działa dla przedmiotów spoza tablicy dodanych przez użytkownika, ponieważ każdy przedmiot by musiał mieć hardcoded wage
+    waga_przedmiotow = {"miecz": 5, "mikstura": 1, "zloto": 0} 
     ekwipunek = {"miecz": 1, "mikstura": 3, "zloto": 50}
     max_waga = 50
     while True:
