@@ -1,3 +1,5 @@
+import random
+
 def show_inv(ekwipunek, waga, max_waga, waga_przedmiotow):
     for i in ekwipunek.keys():
         print(i, "-", ekwipunek[i], "; waga(x1):", waga_przedmiotow.get(i, 0))
@@ -6,6 +8,8 @@ def show_inv(ekwipunek, waga, max_waga, waga_przedmiotow):
 def add_item(ekwipunek, waga_przedmiotow, max_waga):
     while True:
         item = input("Jaki przedmiot chcesz dodać? ").lower().strip()
+        if item not in waga_przedmiotow:
+            waga_przedmiotow[item] = random.randint(1,10)
         if item == "quit":
             break
         elif item in ekwipunek:
@@ -14,7 +18,7 @@ def add_item(ekwipunek, waga_przedmiotow, max_waga):
             waga = waga_oblicz(ekwipunek, waga_przedmiotow)
             if waga > max_waga:
                 ekwipunek[item] -= amount
-                print("Nie możesz unieść więcej przedmiotów.") #Chciałem dodać jeszcze funkcjonalność, która by dodała tyle przedmiotów ile może przed tym zanim przekroczy maksymalną wagę i odrzuciła resztę
+                print("Nie możesz unieść więcej przedmiotów.") 
         else:
             amount = pobierz_liczbe()
             if amount == 0:
@@ -107,7 +111,7 @@ def pobierz_liczbe(pytanie = "Ile? "):
         return liczba
 
 def menu():
-    waga_przedmiotow = {"miecz": 5, "mikstura": 1, "zloto": 0} #Nie działa dla przedmiotów spoza tablicy dodanych przez użytkownika, ponieważ każdy przedmiot by musiał mieć hardcoded wage
+    waga_przedmiotow = {"miecz": 5, "mikstura": 1, "zloto": 0} 
     ekwipunek = {"miecz": 1, "mikstura": 3, "zloto": 50}
     max_waga = 50
     while True:
