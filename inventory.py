@@ -18,7 +18,7 @@ def add_item(ekwipunek, waga_przedmiotow, max_waga):
             waga = waga_oblicz(ekwipunek, waga_przedmiotow)
             if waga > max_waga:
                 ekwipunek[item] -= amount
-                print("Nie możesz unieść więcej przedmiotów.") 
+                print("Nie możesz unieść więcej przedmiotów.")
         else:
             amount = pobierz_liczbe()
             if amount == 0:
