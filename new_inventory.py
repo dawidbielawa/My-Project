@@ -31,7 +31,6 @@ def add_item(ekwipunek, max_waga, lista_przedmiotow):
                     ekwipunek[item]["waga"] = random.randint(1,10)
                     ekwipunek[item]["wartosc"] = random.randint(1,10)
                     lista_przedmiotow[item] = {"waga": ekwipunek[item]["waga"], "wartosc": ekwipunek[item]["wartosc"]}
-                    print(lista_przedmiotow)
                 waga = waga_oblicz(ekwipunek)
                 if waga > max_waga:
                     ekwipunek.pop(item)
